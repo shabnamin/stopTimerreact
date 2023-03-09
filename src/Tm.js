@@ -5,12 +5,17 @@ class Tm extends React.Component {
         super();
         this.state = { 
           time: {},
-          inputTime: 1200
+          inputTime: 120,
+          
+          
          };
 
         this.timer = 0;
         this.start=this.start.bind(this)
         this.stop=this.stop.bind(this)
+        this.reset=this.reset.bind(this)
+        console.log(this.state.inputTime)
+        
       
       }
     
@@ -30,6 +35,7 @@ class Tm extends React.Component {
       }
 
       componentDidMount() {
+     
         let timeLeftVar = this.toTime(this.state.inputTime);
         this.setState({ time: timeLeftVar });
       
@@ -37,8 +43,12 @@ class Tm extends React.Component {
       
 
       start(){
+        let timeLeftVar = this.toTime(this.state.inputTime);
+        this.setState({ time: timeLeftVar });
+    
 
         if ( this.state.inputTime > 0) {
+          
           this.timer = setInterval(()=>{
             let inputTime = this.state.inputTime - 1;
             this.setState({
@@ -52,13 +62,29 @@ class Tm extends React.Component {
       }}
 
       stop(){
+     
        
           clearInterval(this.timer);
+        
+      }
+    
+      reset(){
+        this.stop();        
+       this.setState({ inputTime: 120 }, () => {
+        console.log(this.state.inputTime, 'inputTime: 120 ');
+      }); 
+
+        let timeLeft = this.toTime(this.state.inputTime);
+        console.log(timeLeft)
+        this.setState({ time: timeLeft });
+      
         
       }
       
 
       render() {
+      
+      
         return(
             <div>
           <div >
@@ -69,6 +95,9 @@ class Tm extends React.Component {
            <div className='timer'>  {this.state.time.m} : {this.state.time.s}</div>
            <br/>
            <button  className='startandstop' onClick={this.stop}>توقف</button>
+           <br/>
+           <button  className='startandstop' onClick={this.reset}>ریست</button>
+
           </div>
         );
       }
